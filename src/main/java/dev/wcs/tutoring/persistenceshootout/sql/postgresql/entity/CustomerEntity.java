@@ -38,8 +38,6 @@ public class CustomerEntity {
     @JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = false)
     private AddressEntity addressByAddressId;
     @OneToMany(mappedBy = "customerByCustomerId")
-    private Collection<PaymentEntity> paymentsByCustomerId;
-    @OneToMany(mappedBy = "customerByCustomerId")
     private Collection<RentalEntity> rentalsByCustomerId;
 
     public int getCustomerId() {
@@ -125,14 +123,6 @@ public class CustomerEntity {
 
     public void setAddressByAddressId(AddressEntity addressByAddressId) {
         this.addressByAddressId = addressByAddressId;
-    }
-
-    public Collection<PaymentEntity> getPaymentsByCustomerId() {
-        return paymentsByCustomerId;
-    }
-
-    public void setPaymentsByCustomerId(Collection<PaymentEntity> paymentsByCustomerId) {
-        this.paymentsByCustomerId = paymentsByCustomerId;
     }
 
     public Collection<RentalEntity> getRentalsByCustomerId() {

@@ -5,11 +5,7 @@ import dev.wcs.tutoring.persistenceshootout.nosql.mongodb.entity.Purchase;
 import dev.wcs.tutoring.persistenceshootout.nosql.mongodb.repository.NoSqlCustomerRepository;
 import dev.wcs.tutoring.persistenceshootout.nosql.neo4j.entity.Person;
 import dev.wcs.tutoring.persistenceshootout.nosql.neo4j.repository.PersonRepository;
-import dev.wcs.tutoring.persistenceshootout.sql.postgresql.entity.ActorEntity;
 import dev.wcs.tutoring.persistenceshootout.sql.postgresql.entity.CustomerEntity;
-import dev.wcs.tutoring.persistenceshootout.sql.postgresql.entity.FilmActorEntity;
-import dev.wcs.tutoring.persistenceshootout.sql.postgresql.entity.FilmEntity;
-import dev.wcs.tutoring.persistenceshootout.sql.postgresql.repository.ActorRepository;
 import dev.wcs.tutoring.persistenceshootout.sql.postgresql.repository.CustomerRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,19 +14,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 
 @SpringBootApplication
 public class PersistenceShootoutApplication implements CommandLineRunner {
 
-	public final ActorRepository actorRepository;
 	public final CustomerRepository customerRepository;
 	public final NoSqlCustomerRepository noSqlCustomerRepository;
 	public final PersonRepository personRepository;
 
-	public PersistenceShootoutApplication(ActorRepository actorRepository, CustomerRepository customerRepository, NoSqlCustomerRepository noSqlCustomerRepository, PersonRepository personRepository) {
-		this.actorRepository = actorRepository;
+	public PersistenceShootoutApplication(CustomerRepository customerRepository, NoSqlCustomerRepository noSqlCustomerRepository, PersonRepository personRepository) {
 		this.customerRepository = customerRepository;
 		this.noSqlCustomerRepository = noSqlCustomerRepository;
 		this.personRepository = personRepository;
@@ -43,15 +36,6 @@ public class PersistenceShootoutApplication implements CommandLineRunner {
 	@Override
 	@Transactional
 	public void run(String... args) throws Exception {
-		List<ActorEntity> maxActors = actorRepository.findActorEntitiesByFirstNameContaining("Ed");
-		maxActors.forEach( it -> {
-					System.out.println(it.getFirstName() + " " + it.getLastName());
-					Collection<FilmActorEntity> filmActors = it.getFilmActorsByActorId();
-					FilmEntity film = filmActors.iterator().next().getFilmByFilmId();
-					System.out.println("\t" + film.getTitle());
-					System.out.println("\t\t" + film.getLanguageByLanguageId().getName());
-				}
-		);
 		List<CustomerEntity> inErlangen = customerRepository.findCustomerEntitiesByAddressByAddressId_CityByCityId_City("Erlangen");
 		List<CustomerEntity> inErlangenNativ = customerRepository.findAllCustomersByCity("Erlangen");
 		System.out.println(inErlangen);

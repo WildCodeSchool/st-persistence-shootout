@@ -35,10 +35,6 @@ public class AddressEntity {
     private CityEntity cityByCityId;
     @OneToMany(mappedBy = "addressByAddressId")
     private Collection<CustomerEntity> customersByAddressId;
-    @OneToMany(mappedBy = "addressByAddressId")
-    private Collection<StaffEntity> staffByAddressId;
-    @OneToMany(mappedBy = "addressByAddressId")
-    private Collection<StoreEntity> storesByAddressId;
 
     public int getAddressId() {
         return addressId;
@@ -125,19 +121,4 @@ public class AddressEntity {
         this.customersByAddressId = customersByAddressId;
     }
 
-    public Collection<StaffEntity> getStaffByAddressId() {
-        return staffByAddressId;
-    }
-
-    public void setStaffByAddressId(Collection<StaffEntity> staffByAddressId) {
-        this.staffByAddressId = staffByAddressId;
-    }
-
-    public Collection<StoreEntity> getStoresByAddressId() {
-        return storesByAddressId;
-    }
-
-    public void setStoresByAddressId(Collection<StoreEntity> storesByAddressId) {
-        this.storesByAddressId = storesByAddressId;
-    }
 }

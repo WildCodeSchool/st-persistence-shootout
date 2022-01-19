@@ -1,6 +1,5 @@
 package dev.wcs.tutoring.persistenceshootout.sql.postgresql.repository;
 
-import dev.wcs.tutoring.persistenceshootout.sql.postgresql.entity.ActorEntity;
 import dev.wcs.tutoring.persistenceshootout.sql.postgresql.entity.CustomerEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

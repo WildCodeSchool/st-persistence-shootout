@@ -16,22 +16,23 @@ public class RentalEntity {
     @Column(name = "rental_date")
     private Timestamp rentalDate;
     @Basic
+    @Column(name = "inventory_id")
+    private int inventoryId;
+    @Basic
+    @Column(name = "customer_id")
+    private short customerId;
+    @Basic
     @Column(name = "return_date")
     private Timestamp returnDate;
     @Basic
+    @Column(name = "staff_id")
+    private short staffId;
+    @Basic
     @Column(name = "last_update")
     private Timestamp lastUpdate;
-    @OneToMany(mappedBy = "rentalByRentalId")
-    private Collection<PaymentEntity> paymentsByRentalId;
     @ManyToOne
-    @JoinColumn(name = "inventory_id", referencedColumnName = "inventory_id", nullable = false)
-    private InventoryEntity inventoryByInventoryId;
-    @ManyToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id", nullable = false, insertable=false, updatable=false)
     private CustomerEntity customerByCustomerId;
-    @ManyToOne
-    @JoinColumn(name = "staff_id", referencedColumnName = "staff_id", nullable = false)
-    private StaffEntity staffByStaffId;
 
     public int getRentalId() {
         return rentalId;
@@ -49,12 +50,36 @@ public class RentalEntity {
         this.rentalDate = rentalDate;
     }
 
+    public int getInventoryId() {
+        return inventoryId;
+    }
+
+    public void setInventoryId(int inventoryId) {
+        this.inventoryId = inventoryId;
+    }
+
+    public short getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(short customerId) {
+        this.customerId = customerId;
+    }
+
     public Timestamp getReturnDate() {
         return returnDate;
     }
 
     public void setReturnDate(Timestamp returnDate) {
         this.returnDate = returnDate;
+    }
+
+    public short getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(short staffId) {
+        this.staffId = staffId;
     }
 
     public Timestamp getLastUpdate() {
@@ -70,28 +95,12 @@ public class RentalEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RentalEntity that = (RentalEntity) o;
-        return rentalId == that.rentalId && Objects.equals(rentalDate, that.rentalDate) && Objects.equals(returnDate, that.returnDate) && Objects.equals(lastUpdate, that.lastUpdate);
+        return rentalId == that.rentalId && inventoryId == that.inventoryId && customerId == that.customerId && staffId == that.staffId && Objects.equals(rentalDate, that.rentalDate) && Objects.equals(returnDate, that.returnDate) && Objects.equals(lastUpdate, that.lastUpdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(rentalId, rentalDate, returnDate, lastUpdate);
-    }
-
-    public Collection<PaymentEntity> getPaymentsByRentalId() {
-        return paymentsByRentalId;
-    }
-
-    public void setPaymentsByRentalId(Collection<PaymentEntity> paymentsByRentalId) {
-        this.paymentsByRentalId = paymentsByRentalId;
-    }
-
-    public InventoryEntity getInventoryByInventoryId() {
-        return inventoryByInventoryId;
-    }
-
-    public void setInventoryByInventoryId(InventoryEntity inventoryByInventoryId) {
-        this.inventoryByInventoryId = inventoryByInventoryId;
+        return Objects.hash(rentalId, rentalDate, inventoryId, customerId, returnDate, staffId, lastUpdate);
     }
 
     public CustomerEntity getCustomerByCustomerId() {
@@ -102,11 +111,4 @@ public class RentalEntity {
         this.customerByCustomerId = customerByCustomerId;
     }
 
-    public StaffEntity getStaffByStaffId() {
-        return staffByStaffId;
-    }
-
-    public void setStaffByStaffId(StaffEntity staffByStaffId) {
-        this.staffByStaffId = staffByStaffId;
-    }
 }
