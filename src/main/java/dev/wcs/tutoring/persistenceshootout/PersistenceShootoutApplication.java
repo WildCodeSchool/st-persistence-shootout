@@ -37,7 +37,7 @@ public class PersistenceShootoutApplication implements CommandLineRunner {
 	@Transactional
 	public void run(String... args) throws Exception {
 		List<CustomerEntity> inErlangen = customerRepository.findCustomerEntitiesByAddressByAddressId_CityByCityId_City("Erlangen");
-		List<CustomerEntity> inErlangenNativ = customerRepository.findAllCustomersByCity("Erlangen");
+		List<CustomerEntity> inErlangenNative = customerRepository.findAllCustomersByCity("Erlangen");
 		System.out.println(inErlangen);
 
 
