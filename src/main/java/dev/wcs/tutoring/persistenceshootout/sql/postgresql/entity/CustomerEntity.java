@@ -36,7 +36,7 @@ public class CustomerEntity {
     private Integer active;
     @ManyToOne
     @JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = false)
-    private AddressEntity addressByAddressId;
+    private AddressEntity address;
     @OneToMany(mappedBy = "customerByCustomerId")
     private Collection<RentalEntity> rentalsByCustomerId;
 
@@ -117,12 +117,12 @@ public class CustomerEntity {
         return Objects.hash(customerId, firstName, lastName, email, activebool, createDate, lastUpdate, active);
     }
 
-    public AddressEntity getAddressByAddressId() {
-        return addressByAddressId;
+    public AddressEntity getAddress() {
+        return address;
     }
 
-    public void setAddressByAddressId(AddressEntity addressByAddressId) {
-        this.addressByAddressId = addressByAddressId;
+    public void setAddress(AddressEntity address) {
+        this.address = address;
     }
 
     public Collection<RentalEntity> getRentalsByCustomerId() {

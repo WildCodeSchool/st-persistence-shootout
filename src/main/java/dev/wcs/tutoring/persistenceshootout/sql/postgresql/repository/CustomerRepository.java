@@ -10,9 +10,9 @@ import java.util.List;
 @Repository
 public interface CustomerRepository extends CrudRepository<CustomerEntity, Integer> {
 
-    List<CustomerEntity> findCustomerEntitiesByAddressByAddressId_CityByCityId_City(String city);
+    List<CustomerEntity> findByAddress_City_Name(String city);
 
-    @Query(value = "select cust from CustomerEntity cust inner join cust.addressByAddressId a inner join a.cityByCityId c where c.city=:city")
+    @Query(value = "select cust from CustomerEntity cust inner join cust.address a inner join a.city c where c.name=:city")
     List<CustomerEntity> findAllCustomersByCity(String city);
 
 }

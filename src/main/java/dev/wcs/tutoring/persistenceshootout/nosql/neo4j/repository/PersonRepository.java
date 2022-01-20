@@ -8,9 +8,9 @@ import org.springframework.data.neo4j.repository.query.Query;
 
 public interface PersonRepository extends Neo4jRepository<Person, Long> {
 
-  List<Person> findByActedInMoviesTitle(String actedInMovieTitle);
+    List<Person> findByActedInMoviesTitle(String actedInMovieTitle);
 
-  @Query("MATCH (m:Movie {title: $title1})<-[r1:ACTED_IN]-(p:Person)-[r2:ACTED_IN]->(n:Movie {title: $title2}) RETURN p")
-  List<Person> findByActedInBothMovies(String title1, String title2);
+    @Query("MATCH (m:Movie {title: $title1})<-[r1:ACTED_IN]-(p:Person)-[r2:ACTED_IN]->(n:Movie {title: $title2}) RETURN p")
+    List<Person> findByActedInBothMovies(String title1, String title2);
 
 }

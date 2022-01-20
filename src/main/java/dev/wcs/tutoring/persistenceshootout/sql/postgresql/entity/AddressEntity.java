@@ -32,8 +32,8 @@ public class AddressEntity {
     private Timestamp lastUpdate;
     @ManyToOne
     @JoinColumn(name = "city_id", referencedColumnName = "city_id", nullable = false)
-    private CityEntity cityByCityId;
-    @OneToMany(mappedBy = "addressByAddressId")
+    private CityEntity city;
+    @OneToMany(mappedBy = "address")
     private Collection<CustomerEntity> customersByAddressId;
 
     public int getAddressId() {
@@ -105,12 +105,12 @@ public class AddressEntity {
         return Objects.hash(addressId, address, address2, district, postalCode, phone, lastUpdate);
     }
 
-    public CityEntity getCityByCityId() {
-        return cityByCityId;
+    public CityEntity getCity() {
+        return city;
     }
 
-    public void setCityByCityId(CityEntity cityByCityId) {
-        this.cityByCityId = cityByCityId;
+    public void setCity(CityEntity city) {
+        this.city = city;
     }
 
     public Collection<CustomerEntity> getCustomersByAddressId() {

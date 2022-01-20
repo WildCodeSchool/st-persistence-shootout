@@ -14,11 +14,11 @@ public class CityEntity {
     private int cityId;
     @Basic
     @Column(name = "city")
-    private String city;
+    private String name;
     @Basic
     @Column(name = "last_update")
     private Timestamp lastUpdate;
-    @OneToMany(mappedBy = "cityByCityId")
+    @OneToMany(mappedBy = "city")
     private Collection<AddressEntity> addressesByCityId;
     @ManyToOne
     @JoinColumn(name = "country_id", referencedColumnName = "country_id", nullable = false)
@@ -32,12 +32,12 @@ public class CityEntity {
         this.cityId = cityId;
     }
 
-    public String getCity() {
-        return city;
+    public String getName() {
+        return name;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Timestamp getLastUpdate() {
@@ -53,12 +53,12 @@ public class CityEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CityEntity that = (CityEntity) o;
-        return cityId == that.cityId && Objects.equals(city, that.city) && Objects.equals(lastUpdate, that.lastUpdate);
+        return cityId == that.cityId && Objects.equals(name, that.name) && Objects.equals(lastUpdate, that.lastUpdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cityId, city, lastUpdate);
+        return Objects.hash(cityId, name, lastUpdate);
     }
 
     public Collection<AddressEntity> getAddressesByCityId() {

@@ -35,50 +35,78 @@ public class PersistenceShootoutApplication implements CommandLineRunner {
 
 	@Override
 	@Transactional
-	public void run(String... args) throws Exception {
-		List<CustomerEntity> inErlangen = customerRepository.findCustomerEntitiesByAddressByAddressId_CityByCityId_City("Erlangen");
+	public void run(String... args) {
+		List<CustomerEntity> inErlangen = customerRepository.findByAddress_City_Name("Erlangen");
 		List<CustomerEntity> inErlangenNative = customerRepository.findAllCustomersByCity("Erlangen");
-		System.out.println(inErlangen);
 
+		System.out.println("\n-----------");
+		System.out.println("RDBMS / SQL");
+		System.out.println("-----------");
+
+		System.out.println("\nAll Customers in Erlangen with Spring Data method signature resolution:");
+		System.out.println("-----------------------------------------------------------------------");
+		for (CustomerEntity cust : inErlangen) {
+			System.out.println(cust.getFirstName() + " " + cust.getLastName());
+		}
+		System.out.println("\nAll Customers in Erlangen with Spring Data JPQL:");
+		System.out.println("------------------------------------------------");
+		for (CustomerEntity cust : inErlangenNative) {
+			System.out.println(cust.getFirstName() + " " + cust.getLastName());
+		}
+
+		System.out.println("\n---------------");
+		System.out.println("MongoDB / NoSQL");
+		System.out.println("---------------");
 
 		noSqlCustomerRepository.deleteAll();
 
-		// save a couple of customers
 		noSqlCustomerRepository.save(new Customer("Alice", "Smith"));
 		noSqlCustomerRepository.save(new Customer("Bob", "Smith"));
 
-		// fetch all customers
-		System.out.println("Customers found with findAll():");
+		System.out.println("\nCustomers found with findAll():");
 		System.out.println("-------------------------------");
 		for (Customer customer : noSqlCustomerRepository.findAll()) {
 			System.out.println(customer);
 		}
-		System.out.println();
 
 		// fetch an individual customer
-		System.out.println("Customer found with findByFirstName('Alice'):");
-		System.out.println("--------------------------------");
-		System.out.println(noSqlCustomerRepository.findByFirstName("Alice"));
+		System.out.println("\nCustomer found with findByFirstName('Alice'):");
+		System.out.println("---------------------------------------------");
+		Customer alice = noSqlCustomerRepository.findByFirstName("Alice");
+		addPurchases(alice);
+		System.out.println(alice);
 
-		System.out.println("Customers found with findByLastName('Smith'):");
-		System.out.println("--------------------------------");
+		System.out.println("\nCustomers found with findByLastName('Smith'):");
+		System.out.println("---------------------------------------------");
 		for (Customer customer : noSqlCustomerRepository.findByLastName("Smith")) {
-			addPurchases(customer);
 			System.out.println(customer);
 		}
 
 		List<Person> matrixers = personRepository.findByActedInMoviesTitle("The Matrix");
 		List<Person> bothMovies = personRepository.findByActedInBothMovies("The Matrix", "The Matrix Reloaded");
 
-		System.out.println(matrixers);
-		System.out.println(bothMovies);
+		System.out.println("\n-------------");
+		System.out.println("Neo4j / NoSQL");
+		System.out.println("-------------");
+
+		System.out.println("\nAll Actors in The Matrix:");
+		System.out.println("-------------------------");
+		for (Person matrixer : matrixers) {
+			System.out.println(matrixer.getName());
+		}
+
+		System.out.println("\nAll Actors in The Matrix AND The Matrix Reloaded:");
+		System.out.println("-------------------------------------------------");
+		for (Person matrixer : bothMovies) {
+			System.out.println(matrixer.getName());
+		}
 
 	}
 
 	private void addPurchases(Customer customer) {
-		Purchase purchase1 = new Purchase("banana", LocalDate.now().minusDays(10), BigDecimal.valueOf(5.99));
-		Purchase purchase2 = new Purchase("apple", LocalDate.now().minusDays(11), BigDecimal.valueOf(3.49));
-		Purchase purchase3 = new Purchase("pear", LocalDate.now().minusDays(12), BigDecimal.valueOf(1.45));
+		Purchase purchase1 = new Purchase("The Matrix", LocalDate.now().minusDays(100), BigDecimal.valueOf(5.99));
+		Purchase purchase2 = new Purchase("Matrix Reloaded", LocalDate.now().minusDays(50), BigDecimal.valueOf(3.49));
+		Purchase purchase3 = new Purchase("Matrix Resurrections", LocalDate.now().minusDays(1), BigDecimal.valueOf(1.45));
 		customer.setLastPurchases(List.of(purchase1, purchase2, purchase3));
 		noSqlCustomerRepository.save(customer);
 	}
